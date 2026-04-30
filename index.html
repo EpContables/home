@@ -8,7 +8,9 @@
     <meta name="description" content="Ep Contables ofrece servicios de gestión tributaria y contable digital para pymes. Optimice su carga tributaria y modernice sus procesos con tecnología y expertos.">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Ep Contables">
-    <link rel="canonical" href="https://www.tudominio.cl/"> <meta property="og:title" content="Ep Contables | Gestión Tributaria y Contable Digital">
+    <link rel="canonical" href="https://www.tudominio.cl/"> 
+    
+    <meta property="og:title" content="Ep Contables | Gestión Tributaria y Contable Digital">
     <meta property="og:description" content="Expertos en gestión tributaria, operación renta y contabilidad digital para pymes.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1200&fm=webp">
     <meta property="og:type" content="website">
@@ -31,7 +33,9 @@
     }
     </script>
 
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp" fetchpriority="high">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com">
@@ -44,6 +48,17 @@
     <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"></noscript>
     
+    <style>
+        @font-face {
+            font-family: 'Font Awesome 6 Free';
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Font Awesome 6 Brands';
+            font-display: swap;
+        }
+    </style>
+
     <link href="./output.css" rel="stylesheet">
 </head>
 <body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 transition-colors duration-300">
@@ -225,7 +240,7 @@
                         <div class="h-96 lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800" data-aos="fade-up" data-aos-delay="200">
                             <iframe 
                                 title="Ubicación en el mapa de Ep Contables"
-                                src="https://maps.google.com/maps?q=Avenida+transversal+3+N%C2%B03348,+Alerce+Sur&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                src="https://googleusercontent.com/maps.google.com/1" 
                                 loading="lazy"
                                 width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:opacity-80 dark:invert dark:hue-rotate-180">
                             </iframe>
@@ -235,7 +250,7 @@
             </section>
         </main>
 
-        <footer class="bg-slate-900 dark:bg-[#0a0f1d] text-slate-400 py-8 border-t border-slate-800">
+        <footer class="bg-slate-900 dark:bg-[#0a0f1d] py-8 border-t border-slate-800 text-slate-300">
             <div class="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-2 text-white font-bold text-xl">
                     <i class="fa-solid fa-chart-line text-brand-500"></i> Ep Contables
@@ -314,7 +329,7 @@
                             isDark.value = true;
                             document.documentElement.classList.add('dark');
                         }
-                        window.addEventListener('scroll', handleScroll, { passive: true }); // Mejora el rendimiento del scroll
+                        window.addEventListener('scroll', handleScroll, { passive: true }); // Mejora el rendimiento al hacer scroll
                     });
 
                     onUnmounted(() => {
