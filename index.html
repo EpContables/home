@@ -11,23 +11,50 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="./output.css" rel="stylesheet">
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <style>
+        /* Evita que Vue muestre las llaves {{ }} antes de cargar */
+        [v-cloak] { display: none; }
+
+        /* Fix para Android: Previene saltos de layout y asegura scroll suave */
+        html, body {
+            overflow-x: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        /* Optimización de rendimiento para elementos fijos en móviles */
+        nav {
+            will-change: transform, background-color;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* Transición suave para el cambio de modo */
+        .dark-transition {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+    </style>
 </head>
-<body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
+<body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 dark-transition overflow-x-hidden">
     <div id="app" v-cloak>
-        <nav class="fixed w-full z-50 top-0 transition-all duration-300" :class="isScrolled ? 'bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md shadow-sm py-3 text-slate-900 dark:text-white' : 'bg-transparent py-5 text-white'">
+        <nav class="fixed w-full z-50 top-0 transition-all duration-300" 
+             :class="isScrolled ? 'bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md shadow-sm py-3 text-slate-900 dark:text-white' : 'bg-transparent py-5 text-white'">
             <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
                 <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2">
                     <i class="fa-solid fa-chart-line text-brand-600 dark:text-brand-500"></i>
                     <span>Ep Contables</span>
                 </a>
+                
                 <div class="hidden md:flex items-center space-x-8 font-medium">
                     <a v-for="link in navLinks" :key="link.name" :href="link.href" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">{{ link.name }}</a>
-                    <button @click="toggleTheme" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition" aria-label="Cambiar tema oscuro/claro">
+                    <button @click="toggleTheme" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition" aria-label="Cambiar tema">
                         <i :class="isDark ? 'fa-solid fa-sun fa-fw text-yellow-400' : 'fa-solid fa-moon fa-fw'"></i>
                     </button>
                 </div>
+
                 <div class="md:hidden flex items-center gap-2">
-                    <button @click="toggleTheme" aria-label="Cambiar tema oscuro/claro" class="w-10 h-10 flex items-center justify-center rounded-full">
+                    <button @click="toggleTheme" aria-label="Cambiar tema" class="w-10 h-10 flex items-center justify-center rounded-full">
                         <i :class="isDark ? 'fa-solid fa-sun fa-fw text-yellow-400' : 'fa-solid fa-moon fa-fw'"></i>
                     </button>
                     <button @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Abrir menú" class="w-10 h-10 flex items-center justify-center text-2xl">
@@ -35,6 +62,7 @@
                     </button>
                 </div>
             </div>
+
             <div v-show="mobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-surface shadow-lg border-t border-slate-100 dark:border-slate-700 text-slate-900 dark:text-white">
                 <div class="flex flex-col px-6 py-4 space-y-4">
                     <a v-for="link in navLinks" :key="link.name" :href="link.href" @click="mobileMenuOpen = false" class="font-medium hover:text-brand-600 dark:hover:text-brand-500">{{ link.name }}</a>
@@ -60,7 +88,7 @@
                 </div>
             </section>
 
-            <section id="servicios" class="py-24 bg-white dark:bg-dark-bg">
+            <section id="servicios" class="py-24 bg-white dark:bg-dark-bg transition-colors duration-300">
                 <div class="container mx-auto px-6 lg:px-12">
                     <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
                         <h2 class="text-sm font-bold tracking-widest text-brand-600 dark:text-brand-500 uppercase mb-2">Expertise Financiera</h2>
@@ -68,7 +96,7 @@
                         <p class="mt-4 text-slate-600 dark:text-slate-400">Implementamos tecnología nueva para asegurar que su información financiera esté siempre al día y libre de errores.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div v-for="(servicio, index) in servicios" :key="index" class="p-8 rounded-2xl bg-slate-50 dark:bg-dark-surface border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-shadow group" data-aos="fade-up" :data-aos-delay="index * 100">
+                        <div v-for="(servicio, index) in servicios" :key="index" class="p-8 rounded-2xl bg-slate-50 dark:bg-dark-surface border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all group" data-aos="fade-up" :data-aos-delay="index * 100">
                             <div class="w-14 h-14 bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
                                 <i :class="servicio.icon"></i>
                             </div>
@@ -79,14 +107,14 @@
                 </div>
             </section>
 
-            <section id="equipo" class="py-24 bg-slate-50 dark:bg-dark-surface">
+            <section id="equipo" class="py-24 bg-slate-50 dark:bg-dark-surface transition-colors duration-300">
                 <div class="container mx-auto px-6 lg:px-12">
                     <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
                         <h2 class="text-sm font-bold tracking-widest text-brand-600 dark:text-brand-500 uppercase mb-2">Nuestro Equipo</h2>
                         <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Profesionales a su Servicio</h3>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-                        <div class="bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-right">
+                        <div class="bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-2 transition-all duration-300" data-aos="fade-right">
                             <div class="p-10 w-full">
                                 <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Eliecer Pineda</h4>
                                 <p class="text-brand-600 dark:text-brand-400 font-medium mb-4">Contador Auditor</p>
@@ -101,7 +129,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group" data-aos="fade-left">
+                        <div class="bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-2 transition-all duration-300" data-aos="fade-left">
                             <div class="p-10 w-full">
                                 <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Jairo Pineda</h4>
                                 <p class="text-brand-600 dark:text-brand-400 font-medium mb-4">Contador Técnico Nivel Medio</p>
@@ -121,9 +149,9 @@
                         </div>
                     </div>
                 </div>
-            </section>s
+            </section>
 
-            <section id="contacto" class="py-24 bg-white dark:bg-dark-bg">
+            <section id="contacto" class="py-24 bg-white dark:bg-dark-bg transition-colors duration-300">
                 <div class="container mx-auto px-6 lg:px-12">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                         <div data-aos="fade-up">
@@ -153,8 +181,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="h-96 lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800" data-aos="fade-up" data-aos-delay="200">
-                            <iframe title="Ubicación en el mapa de Ep Contables" src="https://maps.google.com/maps?q=-41.38925,-72.91182&hl=es&z=15&output=embed" loading="lazy" width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:opacity-80 dark:invert dark:hue-rotate-180"></iframe>
+                        <div class="h-96 lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800" data-aos="fade-up">
+                            <iframe title="Ubicación" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d-72.89!3d-41.46!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDI3JzM2LjAiUyA3MsKwNTMnMjQuMCJX!5e0!3m2!1ses!2scl!4v1620000000000!5m2!1ses!2scl" loading="lazy" width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:opacity-80 dark:invert dark:hue-rotate-180"></iframe>
                         </div>
                     </div>
                 </div>
@@ -173,7 +201,8 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const { createApp, ref, onMounted, onUnmounted } = Vue;
+        const { createApp, ref, onMounted, onUnmounted, nextTick } = Vue;
+        
         createApp({
             setup() {
                 const isDark = ref(false);
@@ -200,19 +229,46 @@
                     isDark.value = !isDark.value;
                     document.documentElement.classList.toggle('dark', isDark.value);
                     localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+                    
+                    // IMPORTANTE: Refrescar AOS después de que Vue actualice el DOM
+                    // para evitar que los elementos animados queden en posiciones erróneas
+                    nextTick(() => {
+                        setTimeout(() => {
+                            AOS.refresh();
+                        }, 100);
+                    });
                 };
 
                 const handleScroll = () => {
-                    isScrolled.value = window.scrollY > 50;
+                    isScrolled.value = window.pageYOffset > 50;
                 };
 
                 onMounted(() => {
-                    AOS.init({ once: true, duration: 800 });
+                    // Inicializar Tema
                     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                         isDark.value = true;
                         document.documentElement.classList.add('dark');
                     }
-                    window.addEventListener('scroll', handleScroll);
+
+                    // Inicializar AOS con settings para móvil
+                    AOS.init({ 
+                        once: true, 
+                        duration: 800,
+                        offset: 50,
+                        disableMutationObserver: false
+                    });
+
+                    window.addEventListener('scroll', handleScroll, { passive: true });
+                    
+                    // FIX ANDROID: Forzar recálculo de geometría después de que todo cargue
+                    window.addEventListener('load', () => {
+                        setTimeout(() => {
+                            AOS.refresh();
+                        }, 500);
+                    });
+
+                    // Ejecutar scroll inicial
+                    handleScroll();
                 });
 
                 onUnmounted(() => {
