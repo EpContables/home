@@ -63,17 +63,17 @@
                     <a v-for="link in navLinks" :key="link.name" :href="link.href" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">
                         {{ link.name }}
                     </a>
-                    <button @click="toggleTheme" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition" aria-label="Toggle Dark Mode">
-                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon'"></i>
+                    <button @click="toggleTheme" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition" aria-label="Toggle Dark Mode">
+                        <i :class="isDark ? 'fa-solid fa-sun fa-fw text-yellow-400' : 'fa-solid fa-moon fa-fw'"></i>
                     </button>
                 </div>
 
-                <div class="md:hidden flex items-center gap-4">
-                    <button @click="toggleTheme" class="p-2">
-                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon'"></i>
+                <div class="md:hidden flex items-center gap-2">
+                    <button @click="toggleTheme" class="w-10 h-10 flex items-center justify-center rounded-full">
+                        <i :class="isDark ? 'fa-solid fa-sun fa-fw text-yellow-400' : 'fa-solid fa-moon fa-fw'"></i>
                     </button>
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-2xl">
-                        <i :class="mobileMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="w-10 h-10 flex items-center justify-center text-2xl">
+                        <i :class="mobileMenuOpen ? 'fa-solid fa-xmark fa-fw' : 'fa-solid fa-bars fa-fw'"></i>
                     </button>
                 </div>
             </div>
