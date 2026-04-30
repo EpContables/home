@@ -5,19 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EP Contables | Gestión Tributaria y Contable Digital</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
                     colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            900: '#0c4a6e',
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            surface: '#1e293b',
+                            card: '#334155'
                         }
                     }
                 }
@@ -26,141 +37,154 @@
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <style>
-        /* Ocultar elementos Vue hasta que carguen */
-        [v-cloak] { display: none; }
+        /* Custom scrollbar para estética */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #94a3b8; border-radius: 20px; }
+        .dark ::-webkit-scrollbar-thumb { background-color: #475569; }
         
-        /* Transiciones base suaves */
-        body { transition: background-color 0.3s ease, color 0.3s ease; }
+        /* Ocultar elementos antes de que Vue monte la app (evita parpadeos) */
+        [v-cloak] { display: none; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 antialiased font-sans">
-    
-    <div id="app" v-cloak>
-        <nav class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" @click="scrollTo('inicio')">
-                        <i class="fa-solid fa-chart-line text-primary-600 dark:text-primary-500 text-2xl"></i>
-                        <span class="font-bold text-xl tracking-tight">EP Contables</span>
-                    </div>
-                    
-                    <div class="hidden md:flex space-x-8 items-center">
-                        <a href="#servicios" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition">Servicios</a>
-                        <a href="#equipo" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition">Nuestro Equipo</a>
-                        <a href="#contacto" class="text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition">Contacto</a>
-                        
-                        <button @click="toggleDark" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition" aria-label="Toggle Dark Mode">
-                            <i class="fa-solid" :class="isDark ? 'fa-sun text-yellow-400' : 'fa-moon text-slate-600'"></i>
-                        </button>
-                    </div>
+<body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 transition-colors duration-300">
 
-                    <div class="md:hidden flex items-center gap-4">
-                        <button @click="toggleDark" class="p-2">
-                            <i class="fa-solid" :class="isDark ? 'fa-sun text-yellow-400' : 'fa-moon text-slate-600'"></i>
-                        </button>
-                        <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="text-slate-600 dark:text-slate-300">
-                            <i class="fa-solid fa-bars text-2xl"></i>
-                        </button>
-                    </div>
+    <div id="app" v-cloak>
+        <nav class="fixed w-full z-50 top-0 transition-all duration-300" 
+             :class="isScrolled ? 'bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'">
+            <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-brand-600 dark:text-brand-500"></i>
+                    <span class="text-slate-900 dark:text-white">EP Contables</span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8 font-medium">
+                    <a v-for="link in navLinks" :key="link.name" :href="link.href" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">
+                        {{ link.name }}
+                    </a>
+                    <button @click="toggleTheme" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition" aria-label="Toggle Dark Mode">
+                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-700'"></i>
+                    </button>
+                </div>
+
+                <div class="md:hidden flex items-center gap-4">
+                    <button @click="toggleTheme" class="p-2">
+                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-700'"></i>
+                    </button>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-2xl text-slate-900 dark:text-white">
+                        <i :class="mobileMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+                    </button>
                 </div>
             </div>
             
-            <div v-show="isMobileMenuOpen" class="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#servicios" @click="isMobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Servicios</a>
-                    <a href="#equipo" @click="isMobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Equipo</a>
-                    <a href="#contacto" @click="isMobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Contacto</a>
+            <div v-show="mobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-surface shadow-lg border-t border-slate-100 dark:border-slate-700">
+                <div class="flex flex-col px-6 py-4 space-y-4">
+                    <a v-for="link in navLinks" :key="link.name" :href="link.href" @click="mobileMenuOpen = false" class="font-medium hover:text-brand-600 dark:hover:text-brand-500">
+                        {{ link.name }}
+                    </a>
                 </div>
             </div>
         </nav>
 
-        <section id="inicio" class="pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div data-aos="fade-right">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-6">
-                            <i class="fa-solid fa-shield-halved"></i> Precisión y Confianza
-                        </div>
-                        <h1 class="text-4xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6">
-                            Gestión Tributaria y <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-blue-400">Contable Digital</span>
-                        </h1>
-                        <p class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg">
-                            Optimizamos la salud financiera de tu empresa con tecnología avanzada y experiencia comprobada. Decisiones seguras, contabilidad impecable.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="#contacto" class="inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 shadow-lg hover:shadow-xl transition-all">
-                                Agendar Asesoría
-                            </a>
-                            <a href="#servicios" class="inline-flex justify-center items-center px-6 py-3 border-2 border-slate-300 dark:border-slate-700 text-base font-medium rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                                Conocer Servicios
-                            </a>
-                        </div>
-                    </div>
-                    <div class="relative" data-aos="fade-left" data-aos-delay="200">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-primary-500/20 to-transparent rounded-2xl transform translate-x-4 translate-y-4"></div>
-                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Contabilidad moderna" class="relative rounded-2xl shadow-2xl object-cover h-[400px] w-full">
-                    </div>
+        <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Office Background" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-slate-900/70 dark:bg-slate-900/85"></div>
+            </div>
+            
+            <div class="container relative z-10 mx-auto px-6 lg:px-12 text-center text-white" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                    Precisión, Tecnología y <br class="hidden md:block"/> 
+                    <span class="text-brand-500">Gestión Contable</span> de Excelencia
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10">
+                    Optimizamos su carga tributaria y modernizamos sus procesos contables con soluciones digitales y asesoría experta.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#servicios" class="px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white rounded-lg font-semibold transition-all transform hover:-translate-y-1 shadow-lg">
+                        Nuestros Servicios
+                    </a>
+                    <a href="#contacto" class="px-8 py-4 bg-transparent border-2 border-white hover:bg-white hover:text-slate-900 rounded-lg font-semibold transition-all transform hover:-translate-y-1">
+                        Contactar Asesor
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section id="servicios" class="py-20 bg-white dark:bg-slate-800/50 transition-colors">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="servicios" class="py-24 bg-white dark:bg-dark-bg">
+            <div class="container mx-auto px-6 lg:px-12">
                 <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
-                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Servicios Ejecutivos</h2>
-                    <p class="text-slate-600 dark:text-slate-400">Soluciones contables integrales diseñadas para garantizar el cumplimiento normativo y el crecimiento sostenido de tu negocio.</p>
+                    <h2 class="text-sm font-bold tracking-widest text-brand-600 dark:text-brand-500 uppercase mb-2">Expertise Financiera</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Gestión Tributaria y Contable Integral</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div v-for="(servicio, index) in servicios" :key="index" 
-                         class="bg-slate-50 dark:bg-slate-800 rounded-xl p-8 border border-slate-100 dark:border-slate-700 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group"
-                         :data-aos="'fade-up'" :data-aos-delay="index * 100">
-                        <div class="w-14 h-14 rounded-lg bg-primary-100 dark:bg-slate-700 flex items-center justify-center mb-6 group-hover:bg-primary-600 transition-colors">
-                            <i :class="servicio.icon" class="text-2xl text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors"></i>
+                         class="p-8 rounded-2xl bg-slate-50 dark:bg-dark-surface border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-shadow group"
+                         data-aos="fade-up" :data-aos-delay="index * 100">
+                        <div class="w-14 h-14 bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i :class="servicio.icon"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ servicio.title }}</h3>
-                        <p class="text-slate-600 dark:text-slate-400">{{ servicio.desc }}</p>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ servicio.titulo }}</h4>
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">{{ servicio.desc }}</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="equipo" class="py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16" data-aos="fade-up">
-                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Liderazgo Profesional</h2>
-                    <p class="text-slate-600 dark:text-slate-400">Una sinergia perfecta entre experiencia auditora e innovación tecnológica.</p>
+        <section id="equipo" class="py-24 bg-slate-50 dark:bg-dark-surface">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                    <h2 class="text-sm font-bold tracking-widest text-brand-600 dark:text-brand-500 uppercase mb-2">Nuestro Equipo</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Profesionales a su Servicio</h3>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div v-for="(perfil, index) in equipo" :key="index" 
-                         class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 relative overflow-hidden"
-                         :data-aos="index === 0 ? 'fade-right' : 'fade-left'">
-                         
-                        <div v-if="perfil.badge" class="absolute top-4 right-4 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-trophy"></i> {{ perfil.badge }}
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                    <div class="flex flex-col md:flex-row bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700" data-aos="fade-right">
+                        <div class="md:w-2/5 relative h-64 md:h-auto bg-slate-200 dark:bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Eliecer Pineda" class="w-full h-full object-cover grayscale opacity-90">
+                            <div class="absolute inset-0 bg-brand-600/10 mix-blend-multiply"></div>
                         </div>
-
-                        <div class="flex items-center gap-6 mb-6">
-                            <img :src="perfil.image" :alt="perfil.name" class="w-24 h-24 rounded-full object-cover shadow-md border-4 border-slate-50 dark:border-slate-700">
-                            <div>
-                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{{ perfil.name }}</h3>
-                                <p class="text-primary-600 dark:text-primary-400 font-medium">{{ perfil.role }}</p>
+                        <div class="p-8 md:w-3/5 flex flex-col justify-center">
+                            <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Eliecer Pineda</h4>
+                            <p class="text-brand-600 dark:text-brand-400 font-medium mb-4">Contador Auditor</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Especialista en estructuración financiera y cumplimiento normativo corporativo.</p>
+                            <div class="mt-auto">
+                                <h5 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Áreas de Expertise</h5>
+                                <ul class="flex flex-wrap gap-2">
+                                    <li class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs rounded-full font-medium">Office Avanzado</li>
+                                    <li class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs rounded-full font-medium">Sistemas ERP</li>
+                                    <li class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs rounded-full font-medium">Auditoría de Procesos</li>
+                                </ul>
                             </div>
                         </div>
-                        
-                        <div class="mb-6">
-                            <h4 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Áreas de Expertise</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <span v-for="tag in perfil.tags" :key="tag" class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-md font-medium">
-                                    {{ tag }}
-                                </span>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row bg-white dark:bg-dark-bg rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700" data-aos="fade-left">
+                        <div class="md:w-2/5 relative h-64 md:h-auto bg-slate-200 dark:bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jairo Pineda" class="w-full h-full object-cover grayscale opacity-90">
+                            <div class="absolute inset-0 bg-brand-600/10 mix-blend-multiply"></div>
+                        </div>
+                        <div class="p-8 md:w-3/5 flex flex-col justify-center">
+                            <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Jairo Pineda</h4>
+                            <p class="text-brand-600 dark:text-brand-400 font-medium mb-4">Contador Técnico Nivel Medio</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Fusión de contabilidad tradicional con automatización y tecnologías de la información.</p>
+                            <div class="mt-auto">
+                                <h5 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Áreas de Expertise</h5>
+                                <ul class="flex flex-wrap gap-2 mb-3">
+                                    <li class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs rounded-full font-medium">Contabilidad Digital</li>
+                                    <li class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs rounded-full font-medium">Python, JS</li>
+                                    <li class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs rounded-full font-medium">AWS, Linux, Git</li>
+                                </ul>
+                                <div class="inline-flex items-center gap-2 text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-3 py-1.5 rounded-md">
+                                    <i class="fa-solid fa-trophy"></i> Premio Proyección Laboral
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,73 +192,128 @@
             </div>
         </section>
 
-        <section id="contacto" class="py-20 bg-slate-900 text-white dark:bg-slate-950">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid lg:grid-cols-2 gap-12">
+        <section id="contacto" class="py-24 bg-white dark:bg-dark-bg">
+            <div class="container mx-auto px-6 lg:px-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    
                     <div data-aos="fade-up">
-                        <h2 class="text-3xl font-bold mb-6 text-white">Inicia tu transformación contable</h2>
-                        <p class="text-slate-400 mb-8 text-lg">Contáctanos para una evaluación inicial. Estamos ubicados en el sur de Chile, operando digitalmente para todo el país.</p>
-                        
-                        <div class="space-y-6">
+                        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">Contáctenos</h2>
+                        <p class="text-slate-600 dark:text-slate-400 mb-10 text-lg">
+                            Estamos listos para transformar la contabilidad de su negocio. Hablemos sobre cómo podemos optimizar su gestión tributaria.
+                        </p>
+
+                        <div class="space-y-8">
                             <div class="flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-envelope text-primary-400 text-xl"></i>
+                                <div class="w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-500 flex items-center justify-center shrink-0 text-xl">
+                                    <i class="fa-solid fa-envelope"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-slate-400 font-medium">Email Directo</p>
-                                    <a :href="'mailto:' + contacto.email" class="text-lg font-semibold hover:text-primary-400 transition">{{ contacto.email }}</a>
+                                    <h4 class="font-bold text-slate-900 dark:text-white mb-1">Correo Electrónico</h4>
+                                    <a href="mailto:epcontables71@gmail.com" class="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition">epcontables71@gmail.com</a>
                                 </div>
                             </div>
                             
                             <div class="flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-phone text-primary-400 text-xl"></i>
+                                <div class="w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-500 flex items-center justify-center shrink-0 text-xl">
+                                    <i class="fa-solid fa-phone"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-slate-400 font-medium">Línea Telefónica / WhatsApp</p>
-                                    <a :href="'tel:' + contacto.phone" class="text-lg font-semibold hover:text-primary-400 transition">{{ contacto.phoneDisplay }}</a>
+                                    <h4 class="font-bold text-slate-900 dark:text-white mb-1">Teléfono</h4>
+                                    <a href="tel:+56945521874" class="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition">+56 9 45521874</a>
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-4">
-                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-location-dot text-primary-400 text-xl"></i>
+                                <div class="w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-500 flex items-center justify-center shrink-0 text-xl">
+                                    <i class="fa-solid fa-location-dot"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-slate-400 font-medium">Oficina Principal</p>
-                                    <p class="text-lg font-semibold">{{ contacto.address }}</p>
+                                    <h4 class="font-bold text-slate-900 dark:text-white mb-1">Dirección</h4>
+                                    <p class="text-slate-600 dark:text-slate-400">Avenida Transversal 3 N°3348<br>Alerce sur.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="h-full min-h-[300px] rounded-2xl overflow-hidden shadow-xl" data-aos="fade-left">
+
+                    <div class="h-96 lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800" data-aos="fade-up" data-aos-delay="200">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d-72.9!3d-41.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDI0JzAwLjAiUyA3MsKwNTQnMDAuMCJX!5e0!3m2!1ses!2scl!4v1600000000000!5m2!1ses!2scl" 
-                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="grayscale invert dark:invert-0 opacity-80 hover:opacity-100 transition-opacity">
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11963.097017686566!2d-72.9348!3d-41.4026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDI0JzA5LjQiUyA3MsKwNTYnMDUuMyJX!5e0!3m2!1ses!2scl!4v1680000000000!5m2!1ses!2scl" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            class="grayscale contrast-125 opacity-90 dark:opacity-75 dark:invert dark:hue-rotate-180">
                         </iframe>
                     </div>
+
                 </div>
             </div>
         </section>
 
-        <footer class="bg-slate-950 text-slate-500 py-8 text-center text-sm border-t border-slate-800">
-            <p>&copy; {{ new Date().getFullYear() }} EP Contables. Todos los derechos reservados.</p>
+        <footer class="bg-slate-900 dark:bg-[#0a0f1d] text-slate-400 py-8 border-t border-slate-800">
+            <div class="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2 text-white font-bold text-xl">
+                    <i class="fa-solid fa-chart-line text-brand-500"></i> EP Contables
+                </div>
+                <p class="text-sm">© {{ new Date().getFullYear() }} EP Contables. Todos los derechos reservados.</p>
+            </div>
         </footer>
+
     </div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
-        const { createApp, ref, onMounted } = Vue;
+        const { createApp, ref, onMounted, onUnmounted } = Vue;
 
         createApp({
             setup() {
-                // Estado del Menú Móvil
-                const isMobileMenuOpen = ref(false);
-                
-                // Lógica de Dark Mode con persistencia
+                // Estado Reactivo
                 const isDark = ref(false);
+                const isScrolled = ref(false);
+                const mobileMenuOpen = ref(false);
 
-                const toggleDark = () => {
+                // Datos de Navegación
+                const navLinks = [
+                    { name: 'Inicio', href: '#inicio' },
+                    { name: 'Servicios', href: '#servicios' },
+                    { name: 'Equipo', href: '#equipo' },
+                    { name: 'Contacto', href: '#contacto' }
+                ];
+
+                // Datos de Servicios
+                const servicios = [
+                    {
+                        titulo: "Declaraciones Juradas (DDJJ)",
+                        desc: "Gestión completa y precisa ante el Servicio de Impuestos Internos (SII).",
+                        icon: "fa-solid fa-file-signature"
+                    },
+                    {
+                        titulo: "Operación Renta (F22)",
+                        desc: "Preparación, revisión y presentación experta del Formulario 22.",
+                        icon: "fa-solid fa-calculator"
+                    },
+                    {
+                        titulo: "Gestión de IVA Mensual",
+                        desc: "Declaración, cuadratura y presentación del Formulario 29.",
+                        icon: "fa-solid fa-chart-pie"
+                    },
+                    {
+                        titulo: "Balances y Estados de Resultados",
+                        desc: "Confección detallada de reportes financieros para la toma de decisiones.",
+                        icon: "fa-solid fa-scale-balanced"
+                    },
+                    {
+                        titulo: "Registros Contables",
+                        desc: "Mantenimiento estricto de Registros de Compras, Ventas y Honorarios.",
+                        icon: "fa-solid fa-book-open"
+                    }
+                ];
+
+                // Lógica de Dark Mode
+                const toggleTheme = () => {
                     isDark.value = !isDark.value;
                     if (isDark.value) {
                         document.documentElement.classList.add('dark');
@@ -245,14 +324,24 @@
                     }
                 };
 
-                const scrollTo = (id) => {
-                    const el = document.getElementById(id);
-                    if(el) el.scrollIntoView({ behavior: 'smooth' });
+                // Detector de Scroll para el Navbar
+                const handleScroll = () => {
+                    isScrolled.value = window.scrollY > 50;
                 };
 
+                // Ciclo de Vida: Montaje
                 onMounted(() => {
-                    // Inicializar Tema
-                    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    // Inicializar Animaciones
+                    AOS.init({
+                        once: true,
+                        offset: 50,
+                        duration: 800,
+                        easing: 'ease-out-cubic',
+                    });
+
+                    // Comprobar preferencia de tema previo o de sistema
+                    if (localStorage.getItem('theme') === 'dark' || 
+                        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                         isDark.value = true;
                         document.documentElement.classList.add('dark');
                     } else {
@@ -260,62 +349,25 @@
                         document.documentElement.classList.remove('dark');
                     }
 
-                    // Inicializar AOS
-                    // Se usa setTimeout para asegurar que Vue renderizó el DOM antes de que AOS calcule posiciones
-                    setTimeout(() => {
-                        AOS.init({
-                            duration: 800,
-                            once: true,
-                            offset: 100,
-                        });
-                    }, 100);
+                    // Listener para Navbar
+                    window.addEventListener('scroll', handleScroll);
                 });
 
-                // Datos: Servicios
-                const servicios = ref([
-                    { icon: 'fa-solid fa-file-signature', title: 'Declaraciones Juradas (DDJJ)', desc: 'Gestión y presentación precisa ante el SII, evitando multas y asegurando cumplimiento.' },
-                    { icon: 'fa-solid fa-chart-pie', title: 'Operación Renta (F22)', desc: 'Planificación estratégica y declaración anual de rentas para personas y empresas.' },
-                    { icon: 'fa-solid fa-file-invoice-dollar', title: 'Gestión de IVA Mensual (F29)', desc: 'Cálculo, revisión y declaración mensual de impuestos de manera oportuna.' },
-                    { icon: 'fa-solid fa-scale-balanced', title: 'Balances y Estados de Resultados', desc: 'Confección de reportes financieros detallados para la correcta toma de decisiones.' },
-                    { icon: 'fa-solid fa-book-journal-whills', title: 'Registros de Compras y Ventas', desc: 'Administración impecable de libros contables, incluyendo gestión de honorarios.' }
-                ]);
-
-                // Datos: Equipo
-                const equipo = ref([
-                    {
-                        name: 'Eliecer Pineda',
-                        role: 'Contador Auditor',
-                        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80',
-                        tags: ['Office Avanzado', 'Sistemas ERP', 'Auditoría de Procesos', 'Tributación']
-                    },
-                    {
-                        name: 'Jairo Pineda',
-                        role: 'Contador Técnico Nivel Medio',
-                        image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&q=80',
-                        badge: 'Premio Proyección Laboral',
-                        tags: ['Contabilidad Digital', 'Python', 'JavaScript', 'AWS', 'Linux', 'Git']
-                    }
-                ]);
-
-                // Datos: Contacto
-                const contacto = ref({
-                    email: 'epcontables71@gmail.com',
-                    phone: '+56945521874',
-                    phoneDisplay: '+56 9 45521874',
-                    address: 'Avenida Transversal 3 N°3348, Alerce sur'
+                // Ciclo de Vida: Desmontaje
+                onUnmounted(() => {
+                    window.removeEventListener('scroll', handleScroll);
                 });
 
                 return {
-                    isMobileMenuOpen,
                     isDark,
-                    toggleDark,
-                    scrollTo,
+                    isScrolled,
+                    mobileMenuOpen,
+                    navLinks,
                     servicios,
-                    equipo,
-                    contacto
-                };
+                    toggleTheme
+                }
             }
-        }).mount('#app');
+        }).mount('#app')
     </script>
 </body>
 </html>
