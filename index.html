@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ep Contables | Gestión Tributaria y Contable Digital</title>
 
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"></noscript>
     
     <link href="./output.css" rel="stylesheet">
-
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-</head>
+    
+    </head>
 <body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 transition-colors duration-300">
 
     <div id="app" v-cloak>
@@ -58,7 +62,10 @@
         <main>
             <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp" alt="Office Background" class="w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp" 
+                         alt="Office Background" 
+                         fetchpriority="high"
+                         class="w-full h-full object-cover" />
                     <div class="absolute inset-0 bg-slate-900/70 dark:bg-slate-900/85"></div>
                 </div>
                 
@@ -210,7 +217,9 @@
         </footer>
     </div>
 
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
         const { createApp, ref, onMounted, onUnmounted } = Vue;
         createApp({
