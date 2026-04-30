@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EP Contables | Expertos en Renta y DDJJ</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            800: '#1e293b',
+                            900: '#0f172a', // Azul profundo/Gris corporativo
+                        },
+                        accent: {
+                            400: '#34d399',
+                            500: '#10b981', // Esmeralda
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Pequeño ajuste para evitar el flash de estilos al cargar Vue */
+        [v-cloak] { display: none; }
+    </style>
+</head>
+<body class="bg-brand-50 text-slate-800 dark:bg-[#121212] dark:text-gray-200 transition-colors duration-300 antialiased font-sans flex flex-col min-h-screen">
+    
+    <div id="app" v-cloak class="flex flex-col min-h-screen">
+        
+        <nav class="fixed w-full z-50 bg-white/90 dark:bg-[#1a1a1a]/90 backdrop-blur-md shadow-sm dark:border-b dark:border-gray-800 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex-shrink-0 flex items-center cursor-pointer" @click="scrollToTop">
+                        <span class="text-2xl font-bold tracking-tight text-brand-900 dark:text-white">
+                            EP <span class="text-blue-600 dark:text-accent-500">Contables</span>
+                        </span>
+                    </div>
+
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#servicios" class="font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-accent-400 transition-colors">Servicios</a>
+                        <a href="#equipo" class="font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-accent-400 transition-colors">Equipo</a>
+                        <a href="#contacto" class="font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-accent-400 transition-colors">Contacto</a>
+                        
+                        <button @click="toggleDarkMode" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                            <i class="fas" :class="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+                        </button>
+                    </div>
+
+                    <div class="md:hidden flex items-center space-x-4">
+                        <button @click="toggleDarkMode" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+                            <i class="fas" :class="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+                        </button>
+                        <button @click="toggleMobileMenu" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 focus:outline-none">
+                            <i class="fas fa-bars text-2xl" v-if="!isMobileMenuOpen"></i>
+                            <i class="fas fa-times text-2xl" v-else></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div v-show="isMobileMenuOpen" class="md:hidden bg-white dark:bg-[#1a1a1a] shadow-lg border-t dark:border-gray-800 absolute w-full">
+                <div class="px-4 pt-2 pb-6 space-y-1">
+                    <a href="#servicios" @click="isMobileMenuOpen = false" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800">Servicios</a>
+                    <a href="#equipo" @click="isMobileMenuOpen = false" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800">Equipo</a>
+                    <a href="#contacto" @click="isMobileMenuOpen = false" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800">Contacto</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex-grow flex items-center">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1920&q=80" alt="Contabilidad" class="w-full h-full object-cover opacity-10 dark:opacity-[0.05]">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-brand-50 dark:to-[#121212]"></div>
+            </div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center" data-aos="fade-up">
+                <span class="text-blue-600 dark:text-accent-500 font-semibold tracking-wider uppercase text-sm mb-4 block">Precisión y Cumplimiento</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-brand-900 dark:text-white leading-tight mb-6">
+                    Cumplimiento Tributario <br class="hidden md:block"> Sin Contratiempos
+                </h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400">
+                    Especialistas en Declaraciones Juradas y Renta. 
+                    <br class="hidden sm:block">
+                    <span class="font-medium text-gray-800 dark:text-gray-300">(No realizamos asesoría general, ejecutamos tus obligaciones fiscales con precisión)</span>
+                </p>
+                <div class="mt-10 flex justify-center gap-4">
+                    <a href="#contacto" class="px-8 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 dark:bg-accent-600 dark:hover:bg-accent-500 transition shadow-lg shadow-blue-600/20 dark:shadow-accent-500/20">
+                        Conversemos
+                    </a>
+                    <a href="#servicios" class="px-8 py-3 rounded-lg bg-white dark:bg-[#1a1a1a] text-brand-900 dark:text-white font-medium border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 transition">
+                        Nuestros Servicios
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="py-20 bg-white dark:bg-[#18181b] transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-brand-900 dark:text-white">Áreas de Especialidad</h2>
+                    <div class="w-20 h-1 bg-blue-600 dark:bg-accent-500 mx-auto mt-4 rounded"></div>
+                    <p class="mt-4 text-gray-600 dark:text-gray-400">Focalizamos nuestros esfuerzos para garantizar exactitud.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-brand-50 dark:bg-[#202024] p-8 rounded-2xl border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-14 h-14 bg-blue-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-file-invoice-dollar text-2xl text-blue-600 dark:text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-900 dark:text-white mb-3">Declaraciones Juradas</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                            Aseguramos el estricto cumplimiento de plazos legales y el envío fidedigno de la información al Servicio de Impuestos Internos. Minimizamos el riesgo de multas mediante revisiones exhaustivas y cruces de información.
+                        </p>
+                    </div>
+
+                    <div class="bg-brand-50 dark:bg-[#202024] p-8 rounded-2xl border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                        <div class="w-14 h-14 bg-blue-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-chart-line text-2xl text-blue-600 dark:text-accent-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-900 dark:text-white mb-3">Operación Renta</h3>
+                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                            Ejecutamos la preparación, cuadratura y presentación del F22. Nos encargamos del cálculo preciso de la base imponible, aplicando la normativa vigente para que tu empresa cumpla sin contingencias.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="equipo" class="py-20 bg-brand-50 dark:bg-[#121212] transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-brand-900 dark:text-white">Nuestro Equipo</h2>
+                    <div class="w-20 h-1 bg-blue-600 dark:bg-accent-500 mx-auto mt-4 rounded"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-start bg-white dark:bg-[#1a1a1a] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800" data-aos="fade-right">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&h=200&q=80" alt="Eliecer Pineda" class="w-32 h-32 rounded-full object-cover shadow-md border-4 border-white dark:border-gray-800 flex-shrink-0">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-2xl font-bold text-brand-900 dark:text-white">Eliecer Pineda</h3>
+                            <p class="text-blue-600 dark:text-accent-500 font-medium mb-3">Contador Auditor</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                                Profesional analítico con enfoque en auditoría y procesos tributarios. Garantiza la fidelidad de los estados financieros y el cumplimiento tributario.
+                            </p>
+                            <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full"><i class="fas fa-file-excel mr-1"></i> Excel Experto</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full"><i class="fas fa-server mr-1"></i> Softwares ERP</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full">Suite Office</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-start bg-white dark:bg-[#1a1a1a] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800" data-aos="fade-left">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&h=200&q=80" alt="Jairo Pineda" class="w-32 h-32 rounded-full object-cover shadow-md border-4 border-white dark:border-gray-800 flex-shrink-0">
+                        <div class="text-center sm:text-left">
+                            <h3 class="text-2xl font-bold text-brand-900 dark:text-white">Jairo Pineda</h3>
+                            <p class="text-blue-600 dark:text-accent-500 font-medium mb-3">Contador Técnico Nivel Medio</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                                Perfil híbrido que fusiona la contabilidad tradicional con automatización tecnológica. Galardonado con el <strong>"Reconocimiento de Proyección Laboral"</strong>.
+                            </p>
+                            <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                                <span class="px-3 py-1 bg-blue-50 dark:bg-emerald-900/30 text-blue-700 dark:text-accent-400 text-xs rounded-full font-medium"><i class="fab fa-python mr-1"></i> Python</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full"><i class="fab fa-aws mr-1"></i> AWS</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full"><i class="fab fa-linux mr-1"></i> Linux</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full">HTML/CSS/JS</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-xs rounded-full"><i class="fab fa-git-alt mr-1"></i> Git</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="py-20 bg-white dark:bg-[#18181b] transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-brand-50 dark:bg-[#202024] rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800">
+                    <div class="grid lg:grid-cols-2">
+                        <div class="p-10 lg:p-16 flex flex-col justify-center" data-aos="fade-right">
+                            <h2 class="text-3xl font-bold text-brand-900 dark:text-white mb-6">Ponte en contacto</h2>
+                            <p class="text-gray-600 dark:text-gray-400 mb-10">Agenda una evaluación para asegurar la correcta presentación de tus obligaciones fiscales. Respuestas en menos de 24 horas hábiles.</p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-white dark:bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-gray-700">
+                                        <i class="fas fa-envelope text-blue-600 dark:text-accent-500"></i>
+                                    </div>
+                                    <div class="ml-4 pt-1">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</p>
+                                        <a href="mailto:epcontables71@gmail.com" class="text-lg font-semibold text-brand-900 dark:text-white hover:text-blue-600 dark:hover:text-accent-400 transition">epcontables71@gmail.com</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-white dark:bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-gray-700">
+                                        <i class="fas fa-phone-alt text-blue-600 dark:text-accent-500"></i>
+                                    </div>
+                                    <div class="ml-4 pt-1">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Teléfono</p>
+                                        <a href="tel:+56945521874" class="text-lg font-semibold text-brand-900 dark:text-white hover:text-blue-600 dark:hover:text-accent-400 transition">+56 9 45521874</a>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-white dark:bg-[#1a1a1a] rounded-full flex items-center justify-center flex-shrink-0 border border-gray-200 dark:border-gray-700">
+                                        <i class="fas fa-map-marker-alt text-blue-600 dark:text-accent-500"></i>
+                                    </div>
+                                    <div class="ml-4 pt-1">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ubicación</p>
+                                        <p class="text-lg font-semibold text-brand-900 dark:text-white">Avenida Transversal 3 N°3348,<br>Alerce sur.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="h-64 lg:h-auto w-full bg-gray-200 dark:bg-gray-800" data-aos="fade-left">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11979.138407000108!2d-72.9351052!3d-41.3853173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x96183a54b42fbba5%3A0x6b09c530b1e42e47!2sAlerce%20Sur%2C%20Puerto%20Montt%2C%20Los%20Lagos!5e0!3m2!1ses-419!2scl!4v1680000000000!5m2!1ses-419!2scl" 
+                                class="w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-brand-900 dark:bg-[#111111] py-12 border-t border-brand-800 dark:border-[#1a1a1a] mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0 text-center md:text-left">
+                    <span class="text-xl font-bold tracking-tight text-white">
+                        EP <span class="text-blue-400 dark:text-accent-500">Contables</span>
+                    </span>
+                    <p class="text-gray-400 text-sm mt-2">© <span id="year"></span> EP Contables. Todos los derechos reservados.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white dark:hover:text-accent-400 transition-colors">
+                        <span class="sr-only">LinkedIn</span>
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white dark:hover:text-accent-400 transition-colors">
+                        <span class="sr-only">Twitter</span>
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white dark:hover:text-accent-400 transition-colors">
+                        <span class="sr-only">Instagram</span>
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const isDarkMode = ref(false);
+                const isMobileMenuOpen = ref(false);
+
+                // Función para inicializar y sincronizar el tema
+                const initTheme = () => {
+                    const savedTheme = localStorage.getItem('theme');
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    
+                    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                        isDarkMode.value = true;
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        isDarkMode.value = false;
+                        document.documentElement.classList.remove('dark');
+                    }
+                };
+
+                // Toggle para Modo Oscuro/Claro
+                const toggleDarkMode = () => {
+                    isDarkMode.value = !isDarkMode.value;
+                    if (isDarkMode.value) {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                    }
+                };
+
+                // Menú Móvil
+                const toggleMobileMenu = () => {
+                    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+                };
+
+                // Scroll suave arriba
+                const scrollToTop = () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+
+                // Lifecycle Hook
+                onMounted(() => {
+                    initTheme();
+                    
+                    // Inicializar AOS Animations
+                    AOS.init({
+                        duration: 800,
+                        easing: 'ease-in-out',
+                        once: true,
+                        offset: 50
+                    });
+
+                    // Año dinámico en el footer
+                    document.getElementById('year').textContent = new Date().getFullYear();
+                });
+
+                return {
+                    isDarkMode,
+                    isMobileMenuOpen,
+                    toggleDarkMode,
+                    toggleMobileMenu,
+                    scrollToTop
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
