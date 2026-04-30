@@ -57,11 +57,11 @@
 
     <div id="app" v-cloak>
         <nav class="fixed w-full z-50 top-0 transition-all duration-300" 
-             :class="isScrolled ? 'bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'">
+             :class="isScrolled ? 'bg-white/90 dark:bg-dark-surface/90 backdrop-blur-md shadow-sm py-3 text-slate-900 dark:text-white' : 'bg-transparent py-5 text-white'">
             <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
                 <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2">
                     <i class="fa-solid fa-chart-line text-brand-600 dark:text-brand-500"></i>
-                    <span class="text-slate-900 dark:text-white">EP Contables</span>
+                    <span>EP Contables</span>
                 </a>
                 
                 <div class="hidden md:flex items-center space-x-8 font-medium">
@@ -69,21 +69,21 @@
                         {{ link.name }}
                     </a>
                     <button @click="toggleTheme" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition" aria-label="Toggle Dark Mode">
-                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-700'"></i>
+                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon'"></i>
                     </button>
                 </div>
 
                 <div class="md:hidden flex items-center gap-4">
                     <button @click="toggleTheme" class="p-2">
-                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-700'"></i>
+                        <i :class="isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon'"></i>
                     </button>
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-2xl text-slate-900 dark:text-white">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-2xl">
                         <i :class="mobileMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
                     </button>
                 </div>
             </div>
             
-            <div v-show="mobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-surface shadow-lg border-t border-slate-100 dark:border-slate-700">
+            <div v-show="mobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-white dark:bg-dark-surface shadow-lg border-t border-slate-100 dark:border-slate-700 text-slate-900 dark:text-white">
                 <div class="flex flex-col px-6 py-4 space-y-4">
                     <a v-for="link in navLinks" :key="link.name" :href="link.href" @click="mobileMenuOpen = false" class="font-medium hover:text-brand-600 dark:hover:text-brand-500">
                         {{ link.name }}
