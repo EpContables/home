@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="Ep Contables ofrece servicios de gestión tributaria y contable digital para pymes. Optimice su carga tributaria y modernice sus procesos con nuestros expertos.">
+    
     <title>Ep Contables | Gestión Tributaria y Contable Digital</title>
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    </noscript>
     
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
@@ -18,8 +25,7 @@
     <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"></noscript>
     
     <link href="./output.css" rel="stylesheet">
-    
-    </head>
+</head>
 <body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 transition-colors duration-300">
 
     <div id="app" v-cloak>
@@ -217,84 +223,86 @@
         </footer>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     
     <script>
-        const { createApp, ref, onMounted, onUnmounted } = Vue;
-        createApp({
-            setup() {
-                const isDark = ref(false);
-                const isScrolled = ref(false);
-                const mobileMenuOpen = ref(false);
+        document.addEventListener('DOMContentLoaded', () => {
+            const { createApp, ref, onMounted, onUnmounted } = Vue;
+            createApp({
+                setup() {
+                    const isDark = ref(false);
+                    const isScrolled = ref(false);
+                    const mobileMenuOpen = ref(false);
 
-                const navLinks = [
-                    { name: 'Inicio', href: '#inicio' },
-                    { name: 'Servicios', href: '#servicios' },
-                    { name: 'Equipo', href: '#equipo' },
-                    { name: 'Contacto', href: '#contacto' }
-                ];
+                    const navLinks = [
+                        { name: 'Inicio', href: '#inicio' },
+                        { name: 'Servicios', href: '#servicios' },
+                        { name: 'Equipo', href: '#equipo' },
+                        { name: 'Contacto', href: '#contacto' }
+                    ];
 
-                const servicios = [
-                    {
-                        titulo: "Tecnología ERP e IA",
-                        desc: "Utilizamos software contable avanzado con sistemas automatizados de inteligencia artificial para el ingreso directo de compras y ventas.",
-                        icon: "fa-solid fa-microchip"
-                    },
-                    {
-                        titulo: "Declaraciones Juradas (DDJJ)",
-                        desc: "Gestión completa y precisa ante el Servicio de Impuestos Internos (SII).",
-                        icon: "fa-solid fa-file-signature"
-                    },
-                    {
-                        titulo: "Operación Renta (F22)",
-                        desc: "Preparación, revisión y presentación experta del Formulario 22.",
-                        icon: "fa-solid fa-calculator"
-                    },
-                    {
-                        titulo: "Gestión de IVA Mensual",
-                        desc: "Declaración, cuadratura y presentación del Formulario 29.",
-                        icon: "fa-solid fa-chart-pie"
-                    },
-                    {
-                        titulo: "Balances y Estados de Resultados",
-                        desc: "Confección detallada de reportes financieros para la toma de decisiones.",
-                        icon: "fa-solid fa-scale-balanced"
-                    },
-                    {
-                        titulo: "Registros Contables",
-                        desc: "Mantenimiento estricto de Registros de Compras, Ventas y Honorarios.",
-                        icon: "fa-solid fa-book-open"
-                    }
-                ];
+                    const servicios = [
+                        {
+                            titulo: "Tecnología ERP e IA",
+                            desc: "Utilizamos software contable avanzado con sistemas automatizados de inteligencia artificial para el ingreso directo de compras y ventas.",
+                            icon: "fa-solid fa-microchip"
+                        },
+                        {
+                            titulo: "Declaraciones Juradas (DDJJ)",
+                            desc: "Gestión completa y precisa ante el Servicio de Impuestos Internos (SII).",
+                            icon: "fa-solid fa-file-signature"
+                        },
+                        {
+                            titulo: "Operación Renta (F22)",
+                            desc: "Preparación, revisión y presentación experta del Formulario 22.",
+                            icon: "fa-solid fa-calculator"
+                        },
+                        {
+                            titulo: "Gestión de IVA Mensual",
+                            desc: "Declaración, cuadratura y presentación del Formulario 29.",
+                            icon: "fa-solid fa-chart-pie"
+                        },
+                        {
+                            titulo: "Balances y Estados de Resultados",
+                            desc: "Confección detallada de reportes financieros para la toma de decisiones.",
+                            icon: "fa-solid fa-scale-balanced"
+                        },
+                        {
+                            titulo: "Registros Contables",
+                            desc: "Mantenimiento estricto de Registros de Compras, Ventas y Honorarios.",
+                            icon: "fa-solid fa-book-open"
+                        }
+                    ];
 
-                const toggleTheme = () => {
-                    isDark.value = !isDark.value;
-                    document.documentElement.classList.toggle('dark', isDark.value);
-                    localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
-                };
+                    const toggleTheme = () => {
+                        isDark.value = !isDark.value;
+                        document.documentElement.classList.toggle('dark', isDark.value);
+                        localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+                    };
 
-                const handleScroll = () => {
-                    isScrolled.value = window.scrollY > 50;
-                };
+                    const handleScroll = () => {
+                        isScrolled.value = window.scrollY > 50;
+                    };
 
-                onMounted(() => {
-                    AOS.init({ once: true, duration: 800 });
-                    if (localStorage.getItem('theme') === 'dark' || 
-                        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                        isDark.value = true;
-                        document.documentElement.classList.add('dark');
-                    }
-                    window.addEventListener('scroll', handleScroll);
-                });
+                    onMounted(() => {
+                        AOS.init({ once: true, duration: 800 });
+                        if (localStorage.getItem('theme') === 'dark' || 
+                            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                            isDark.value = true;
+                            document.documentElement.classList.add('dark');
+                        }
+                        window.addEventListener('scroll', handleScroll);
+                    });
 
-                onUnmounted(() => {
-                    window.removeEventListener('scroll', handleScroll);
-                });
+                    onUnmounted(() => {
+                        window.removeEventListener('scroll', handleScroll);
+                    });
 
-                return { isDark, isScrolled, mobileMenuOpen, navLinks, servicios, toggleTheme }
-            }
-        }).mount('#app')
+                    return { isDark, isScrolled, mobileMenuOpen, navLinks, servicios, toggleTheme }
+                }
+            }).mount('#app')
+        });
     </script>
 </body>
 </html>
