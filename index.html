@@ -9,37 +9,31 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
 
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=60&w=800&fm=webp" media="(max-width: 767px)">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp" media="(min-width: 768px)">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./output.css">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
+
     <style>
-        /* Evita que Vue muestre las llaves {{ }} antes de cargar */
         [v-cloak] { display: none; }
-
-        /* Fix para Android: Previene saltos de layout y asegura scroll suave */
-        html, body {
-            overflow-x: hidden;
-            position: relative;
-            width: 100%;
+        html, body { overflow-x: hidden; position: relative; width: 100%; }
+        nav { will-change: transform, background-color; backface-visibility: hidden; }
+        .dark-transition { transition: background-color 0.3s ease, color 0.3s ease; }
+        
+        /* Optimización de LCP: Fondo con CSS para mayor control */
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=60&w=800&fm=webp');
+            background-size: cover;
+            background-position: center;
         }
-
-        /* Optimización de rendimiento para elementos fijos en móviles */
-        nav {
-            will-change: transform, background-color;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
-
-        /* Transición suave para el cambio de modo */
-        .dark-transition {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        @media (min-width: 768px) {
+            .hero-bg { background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp'); }
         }
     </style>
 </head>
@@ -79,8 +73,7 @@
 
         <main>
             <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
-                <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp" alt="Office Background" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 z-0 hero-bg">
                     <div class="absolute inset-0 bg-slate-900/70 dark:bg-slate-900/85"></div>
                 </div>
                 <div class="container relative z-10 mx-auto px-6 lg:px-12 text-center text-white" data-aos="fade-up" data-aos-duration="1000">
@@ -189,7 +182,7 @@
                             </div>
                         </div>
                         <div class="h-96 lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800" data-aos="fade-up">
-                            <iframe title="Ubicación en el mapa de Ep Contables" src="https://maps.google.com/maps?q=-41.38925,-72.91182&hl=es&z=15&output=embed" loading="lazy" width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:opacity-80 dark:invert dark:hue-rotate-180"></iframe>
+                            <iframe title="Ubicación en el mapa de Ep Contables" src="about:blank" data-src="https://maps.google.com/maps?q=-41.38925,-72.91182&hl=es&z=15&output=embed" loading="lazy" width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:opacity-80 dark:invert dark:hue-rotate-180 lazy-iframe"></iframe>
                         </div>
                     </div>
                 </div>
@@ -206,81 +199,75 @@
         </footer>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     
     <script>
-        const { createApp, ref, onMounted, onUnmounted, nextTick } = Vue;
-        
-        createApp({
-            setup() {
-                const isDark = ref(false);
-                const isScrolled = ref(false);
-                const mobileMenuOpen = ref(false);
+        // Esperamos a que los scripts carguen (defer)
+        window.addEventListener('DOMContentLoaded', () => {
+            const { createApp, ref, onMounted, onUnmounted, nextTick } = Vue;
+            
+            createApp({
+                setup() {
+                    const isDark = ref(false);
+                    const isScrolled = ref(false);
+                    const mobileMenuOpen = ref(false);
 
-                const navLinks = [
-                    { name: 'Inicio', href: '#inicio' },
-                    { name: 'Servicios', href: '#servicios' },
-                    { name: 'Equipo', href: '#equipo' },
-                    { name: 'Contacto', href: '#contacto' }
-                ];
+                    const navLinks = [
+                        { name: 'Inicio', href: '#inicio' },
+                        { name: 'Servicios', href: '#servicios' },
+                        { name: 'Equipo', href: '#equipo' },
+                        { name: 'Contacto', href: '#contacto' }
+                    ];
 
-                const servicios = [
-                    { titulo: "Tecnología ERP e IA", desc: "Utilizamos software contable avanzado con sistemas automatizados de inteligencia artificial para el ingreso directo de compras y ventas.", icon: "fa-solid fa-microchip" },
-                    { titulo: "Declaraciones Juradas (DDJJ)", desc: "Gestión completa y precisa ante el Servicio de Impuestos Internos (SII).", icon: "fa-solid fa-file-signature" },
-                    { titulo: "Operación Renta (F22)", desc: "Preparación, revisión y presentación completa del Formulario 22.", icon: "fa-solid fa-calculator" },
-                    { titulo: "Gestión de IVA Mensual", desc: "Declaración, cuadratura y presentación del Formulario 29.", icon: "fa-solid fa-chart-pie" },
-                    { titulo: "Balances y Estados de Resultados", desc: "Confección detallada de reportes financieros para la toma de decisiones.", icon: "fa-solid fa-scale-balanced" },
-                    { titulo: "Registros Contables", desc: "Mantenimiento estricto de Registros de Compras, Ventas y Honorarios.", icon: "fa-solid fa-book-open" }
-                ];
+                    const servicios = [
+                        { titulo: "Tecnología ERP e IA", desc: "Utilizamos software contable avanzado con sistemas automatizados de inteligencia artificial para el ingreso directo de compras y ventas.", icon: "fa-solid fa-microchip" },
+                        { titulo: "Declaraciones Juradas (DDJJ)", desc: "Gestión completa y precisa ante el Servicio de Impuestos Internos (SII).", icon: "fa-solid fa-file-signature" },
+                        { titulo: "Operación Renta (F22)", desc: "Preparación, revisión y presentación completa del Formulario 22.", icon: "fa-solid fa-calculator" },
+                        { titulo: "Gestión de IVA Mensual", desc: "Declaración, cuadratura y presentación del Formulario 29.", icon: "fa-solid fa-chart-pie" },
+                        { titulo: "Balances y Estados de Resultados", desc: "Confección detallada de reportes financieros para la toma de decisiones.", icon: "fa-solid fa-scale-balanced" },
+                        { titulo: "Registros Contables", desc: "Mantenimiento estricto de Registros de Compras, Ventas y Honorarios.", icon: "fa-solid fa-book-open" }
+                    ];
 
-                const toggleTheme = () => {
-                    isDark.value = !isDark.value;
-                    document.documentElement.classList.toggle('dark', isDark.value);
-                    localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
-                    
-                    nextTick(() => {
+                    const toggleTheme = () => {
+                        isDark.value = !isDark.value;
+                        document.documentElement.classList.toggle('dark', isDark.value);
+                        localStorage.setItem('theme', isDark.value ? 'dark' : 'light');
+                    };
+
+                    const handleScroll = () => {
+                        isScrolled.value = window.pageYOffset > 50;
+                    };
+
+                    onMounted(() => {
+                        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                            isDark.value = true;
+                            document.documentElement.classList.add('dark');
+                        }
+
+                        // Inicialización suave de AOS
                         setTimeout(() => {
-                            AOS.refresh();
+                            AOS.init({ once: true, duration: 800, offset: 50 });
                         }, 100);
-                    });
-                };
 
-                const handleScroll = () => {
-                    isScrolled.value = window.pageYOffset > 50;
-                };
+                        window.addEventListener('scroll', handleScroll, { passive: true });
+                        handleScroll();
 
-                onMounted(() => {
-                    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                        isDark.value = true;
-                        document.documentElement.classList.add('dark');
-                    }
-
-                    AOS.init({ 
-                        once: true, 
-                        duration: 800,
-                        offset: 50,
-                        disableMutationObserver: false
+                        // Lazy load para el iframe del mapa después de la interacción o delay
+                        const iframe = document.querySelector('.lazy-iframe');
+                        if(iframe) {
+                            setTimeout(() => { iframe.src = iframe.getAttribute('data-src'); }, 2000);
+                        }
                     });
 
-                    window.addEventListener('scroll', handleScroll, { passive: true });
-                    
-                    window.addEventListener('load', () => {
-                        setTimeout(() => {
-                            AOS.refresh();
-                        }, 500);
+                    onUnmounted(() => {
+                        window.removeEventListener('scroll', handleScroll);
                     });
 
-                    handleScroll();
-                });
-
-                onUnmounted(() => {
-                    window.removeEventListener('scroll', handleScroll);
-                });
-
-                return { isDark, isScrolled, mobileMenuOpen, navLinks, servicios, toggleTheme }
-            }
-        }).mount('#app')
+                    return { isDark, isScrolled, mobileMenuOpen, navLinks, servicios, toggleTheme }
+                }
+            }).mount('#app')
+        });
     </script>
 </body>
 </html>
