@@ -26,7 +26,6 @@
         nav { will-change: transform, background-color; backface-visibility: hidden; }
         .dark-transition { transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* Optimización de LCP: Fondo con CSS para mayor control */
         .hero-bg {
             background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=60&w=800&fm=webp');
             background-size: cover;
@@ -35,6 +34,10 @@
         @media (min-width: 768px) {
             .hero-bg { background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp'); }
         }
+
+        /* Estilos para animar la notificación */
+        .toast-fade-enter-active, .toast-fade-leave-active { transition: all 0.4s ease; }
+        .toast-fade-enter-from, .toast-fade-leave-to { opacity: 0; transform: translateY(20px); }
     </style>
 </head>
 <body class="font-sans antialiased text-slate-800 bg-slate-50 dark:bg-dark-bg dark:text-slate-200 dark-transition overflow-x-hidden">
@@ -157,36 +160,59 @@
                         <div data-aos="fade-up">
                             <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">Contáctenos</h2>
                             <p class="text-slate-600 dark:text-slate-400 mb-10 text-lg leading-relaxed">Estamos listos para transformar la contabilidad de su negocio. Hablemos sobre cómo podemos optimizar su gestión contable.</p>
+                            
                             <div class="space-y-8">
                                 <div class="flex items-start gap-4">
                                     <div class="w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-500 flex items-center justify-center shrink-0 text-xl"><i class="fa-solid fa-envelope"></i></div>
                                     <div>
                                         <h3 class="font-bold text-slate-900 dark:text-white mb-1">Correo Electrónico</h3>
-                                        <a href="mailto:epcontable71@gmail.com" class="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition">epcontable71@gmail.com</a>
+                                        <div class="flex items-center gap-2 flex-wrap group">
+                                            <a href="mailto:epcontable71@gmail.com" class="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 transition break-all">epcontable71@gmail.com</a>
+                                            <button @click="copyToClipboard('epcontable71@gmail.com', 'Correo')" class="text-slate-400 dark:text-slate-500 hover:text-brand-600 dark:hover:text-white transition p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none" title="Copiar correo">
+                                                <i class="fa-regular fa-copy"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-4">
                                     <div class="w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-500 flex items-center justify-center shrink-0 text-xl"><i class="fa-solid fa-phone"></i></div>
                                     <div>
                                         <h3 class="font-bold text-slate-900 dark:text-white mb-1">Teléfono</h3>
-                                        <a href="tel:+56945521874" class="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition">+56 9 45521874</a>
+                                        <div class="flex items-center gap-2 flex-wrap group">
+                                            <a href="tel:+56945521874" class="text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 transition">+56 9 45521874</a>
+                                            <button @click="copyToClipboard('+56945521874', 'Teléfono')" class="text-slate-400 dark:text-slate-500 hover:text-brand-600 dark:hover:text-white transition p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none" title="Copiar teléfono">
+                                                <i class="fa-regular fa-copy"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-4">
                                     <div class="w-12 h-12 rounded-full bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-500 flex items-center justify-center shrink-0 text-xl"><i class="fa-solid fa-location-dot"></i></div>
                                     <div>
                                         <h3 class="font-bold text-slate-900 dark:text-white mb-1">Dirección</h3>
-                                        <p class="text-slate-600 dark:text-slate-400">Avenida transversal 3 N°3348, Alerce Sur</p>
+                                        <div class="flex items-center gap-2 flex-wrap group">
+                                            <p class="text-slate-600 dark:text-slate-400 cursor-default">Avenida transversal 3 N°3348, Alerce Sur</p>
+                                            <button @click="copyToClipboard('Avenida transversal 3 N°3348, Alerce Sur', 'Dirección')" class="text-slate-400 dark:text-slate-500 hover:text-brand-600 dark:hover:text-white transition p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none" title="Copiar dirección">
+                                                <i class="fa-regular fa-copy"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="h-96 lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800" data-aos="fade-up">
-                            <iframe title="Ubicación en el mapa de Ep Contables" src="about:blank" data-src="https://maps.google.com/maps?q=-41.38925,-72.91182&hl=es&z=15&output=embed" loading="lazy" width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:opacity-80 dark:invert dark:hue-rotate-180 lazy-iframe"></iframe>
+                            <iframe title="Ubicación en el mapa de Ep Contables" src="about:blank" data-src="https://maps.google.com/maps?q=Avenida%20transversal%203%20N%C2%B03348,%20Alerce%20Sur&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" width="100%" height="100%" style="border:0;" allowfullscreen="" class="w-full h-full grayscale-[0.3] contrast-125 dark:invert dark:hue-rotate-180 lazy-iframe"></iframe>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <transition name="toast-fade">
+                <div v-if="showToast" class="fixed bottom-6 right-6 z-[60] flex items-center gap-3 px-4 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg shadow-2xl border border-slate-700 dark:border-slate-200">
+                    <i class="fa-solid fa-circle-check text-green-400 dark:text-green-600"></i>
+                    <span class="font-medium text-sm">{{ toastMessage }}</span>
+                </div>
+            </transition>
         </main>
 
         <footer class="bg-slate-900 dark:bg-[#0a0f1d] text-slate-400 py-8 border-t border-slate-800">
@@ -203,15 +229,19 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     
     <script>
-        // Esperamos a que los scripts carguen (defer)
         window.addEventListener('DOMContentLoaded', () => {
-            const { createApp, ref, onMounted, onUnmounted, nextTick } = Vue;
+            const { createApp, ref, onMounted, onUnmounted } = Vue;
             
             createApp({
                 setup() {
                     const isDark = ref(false);
                     const isScrolled = ref(false);
                     const mobileMenuOpen = ref(false);
+
+                    // Variables para el Toast de copiado
+                    const showToast = ref(false);
+                    const toastMessage = ref('');
+                    let toastTimer = null;
 
                     const navLinks = [
                         { name: 'Inicio', href: '#inicio' },
@@ -239,13 +269,37 @@
                         isScrolled.value = window.pageYOffset > 50;
                     };
 
+                    // Función para copiar al portapapeles
+                    const copyToClipboard = async (text, label) => {
+                        try {
+                            if (navigator.clipboard && window.isSecureContext) {
+                                await navigator.clipboard.writeText(text);
+                            } else {
+                                const textArea = document.createElement("textarea");
+                                textArea.value = text;
+                                textArea.style.position = "absolute";
+                                textArea.style.opacity = "0";
+                                document.body.appendChild(textArea);
+                                textArea.select();
+                                document.execCommand('copy');
+                                document.body.removeChild(textArea);
+                            }
+                            toastMessage.value = `${label} copiado con éxito`;
+                        } catch (err) {
+                            toastMessage.value = `No se pudo copiar el texto`;
+                        }
+
+                        showToast.value = true;
+                        if (toastTimer) clearTimeout(toastTimer);
+                        toastTimer = setTimeout(() => { showToast.value = false; }, 3000);
+                    };
+
                     onMounted(() => {
                         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                             isDark.value = true;
                             document.documentElement.classList.add('dark');
                         }
 
-                        // Inicialización suave de AOS
                         setTimeout(() => {
                             AOS.init({ once: true, duration: 800, offset: 50 });
                         }, 100);
@@ -253,18 +307,21 @@
                         window.addEventListener('scroll', handleScroll, { passive: true });
                         handleScroll();
 
-                        // Lazy load para el iframe del mapa después de la interacción o delay
                         const iframe = document.querySelector('.lazy-iframe');
                         if(iframe) {
-                            setTimeout(() => { iframe.src = iframe.getAttribute('data-src'); }, 2000);
+                            setTimeout(() => { iframe.src = iframe.getAttribute('data-src'); }, 1500);
                         }
                     });
 
                     onUnmounted(() => {
                         window.removeEventListener('scroll', handleScroll);
+                        if (toastTimer) clearTimeout(toastTimer);
                     });
 
-                    return { isDark, isScrolled, mobileMenuOpen, navLinks, servicios, toggleTheme }
+                    return { 
+                        isDark, isScrolled, mobileMenuOpen, navLinks, servicios, 
+                        toggleTheme, showToast, toastMessage, copyToClipboard 
+                    }
                 }
             }).mount('#app')
         });
