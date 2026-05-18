@@ -17,7 +17,7 @@
     <meta name="description" content="Ep Contables: Especialistas en gestión tributaria y contabilidad digital para PyMEs. Servicios de Operación Renta, IVA mensual, declaraciones juradas y tecnología ERP e IA.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="icon" type="image/png" href="favicon.png">
 
     <link rel="canonical" href="https://epcontables.github.io/home/" />
 
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="./output.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="./aos.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./aos.css">
 
     <style>
         [v-cloak] { display: none; }
@@ -258,7 +258,7 @@
     
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const { createApp, ref, onMounted, onUnmounted } = Vue;
+            const { createApp, ref, onMounted, onUnmounted, nextTick } = Vue;
             
             createApp({
                 setup() {
@@ -320,14 +320,17 @@
                         toastTimer = setTimeout(() => { showToast.value = false; }, 3000);
                     };
 
-                    onMounted(() => {
+                    onMounted(async () => {
                         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                             isDark.value = true;
                             document.documentElement.classList.add('dark');
                         }
 
+                        await nextTick();
+    
                         setTimeout(() => {
                             AOS.init({ once: true, duration: 800, offset: 50 });
+                            AOS.refresh();
                         }, 100);
 
                         window.addEventListener('scroll', handleScroll, { passive: true });
