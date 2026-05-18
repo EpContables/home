@@ -24,11 +24,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
 
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=60&w=800&fm=webp" media="(max-width: 767px)">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1600&fm=webp" media="(min-width: 768px)">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
     <link rel="stylesheet" href="./output.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
@@ -250,8 +253,8 @@
         </footer>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js" defer></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js" defer crossorigin></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer crossorigin></script>
     
     <script>
         window.addEventListener('DOMContentLoaded', () => {
@@ -332,7 +335,6 @@
 
                         const iframe = document.querySelector('.lazy-iframe');
                         if(iframe) {
-                            // Se carga el data-src después de 1.5s para optimizar la carga inicial
                             setTimeout(() => { iframe.src = iframe.getAttribute('data-src'); }, 1500);
                         }
                     });
